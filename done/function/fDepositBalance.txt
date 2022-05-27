@@ -1,0 +1,19 @@
+@startuml
+
+participant "User App" as us
+database "UserDB" as ub
+
+==Function deposit an account balance==
+
+    activate us
+us -> ub: select guest balance
+    activate ub
+ub-> us: return guest balance
+us -> us: to add sum\nbooking to\nthe guest balance
+us -> ub: update guest balance
+ub -> us: return guest
+    deactivate ub
+    deactivate us
+
+
+@enduml

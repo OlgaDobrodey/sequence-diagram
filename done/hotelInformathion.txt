@@ -1,0 +1,24 @@
+@startuml
+
+actor "Owner" as user
+participant "Gateway" as gw
+participant "Hotel App" as hs
+database "HotelDB" as db
+
+==Updating hotel information==
+    activate user
+user -> gw: PUT /hotels/{id}
+    activate gw
+gw -> hs: send request to change the hotel information
+    activate hs
+hs-> db: update the hotel information
+    activate db
+db-> hs: return the hotel
+    deactivate db
+hs -> gw: return the hotel view
+    deactivate hs
+gw ->  user: return the hotel view
+    deactivate gw
+    deactivate user
+
+@enduml

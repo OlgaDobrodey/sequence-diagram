@@ -1,0 +1,23 @@
+@startuml
+participant "msjava-recipient-verification" as rv
+participant "gwpy-core/documents" as core
+
+activate rv
+activate core
+rv -> core: send check document effective permissions request
+core -> core: check that data valid
+core -> core: check document effective permissions
+core -> rv: return check document permissions result
+deactivate core
+
+alt#Gold #LightBlue if there is permission
+rv -> rv: process request
+end
+
+alt#Gold #LightBlue if there is no permission
+rv -> rv: throw permission denied error
+end
+
+deactivate rv
+
+@enduml

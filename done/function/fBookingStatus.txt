@@ -1,0 +1,25 @@
+@startuml
+
+participant "Booking App" as bs
+participant "User App" as us
+participant "Kafka" as k
+
+database "BookingDB" as db
+
+==Function changing booking status==
+
+    activate bs
+bs -> us: send request\nto add cost booking\nto guest balance
+    activate us
+us -> us: function deposit\nan account balance
+us -> bs: return guest
+    deactivate us
+bs-> db: update the booking status to cancelled
+    activate db
+db -> bs: return the booking
+    deactivate db
+bs -> k: send email event
+    activate k
+    deactivate k
+
+@enduml

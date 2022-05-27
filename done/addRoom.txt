@@ -1,0 +1,40 @@
+@startuml
+
+actor "Owner" as user
+participant "Gateway" as gw
+participant "Hotel App" as hs
+database "HotelDB" as db
+
+==Adding a room with information to the room==
+    activate user
+user -> gw: POST /rooms
+    activate gw
+gw -> hs: send a request to add a new room\nwith information to the hotel
+    activate hs
+hs-> db: insert a new room in status block
+    activate db
+db-> hs: return the room in status block
+    deactivate db
+hs -> gw: return the room view
+    deactivate hs
+gw -> user: return the room view
+    deactivate gw
+
+
+==Updating description room==
+user -> gw: PUT /rooms/{id}
+    activate gw
+gw -> hs: send a request to change the room information
+    activate hs
+hs-> db: update the room information
+    activate db
+db-> hs: return the room
+    deactivate db
+hs -> gw: return the room view
+    deactivate hs
+gw -> user: return the room view
+    deactivate gw
+
+ deactivate user
+
+@enduml

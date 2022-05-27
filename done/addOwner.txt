@@ -1,0 +1,44 @@
+@startuml
+
+actor "Admin" as user
+participant "Gateway" as gw
+participant "User App" as us
+participant "Hotel App" as hs
+participant "Kafka" as k
+database "UserDB" as ub
+database "HotelDB" as hb
+
+==Adding a new owner and hotel==
+    activate user
+user -> gw :POST /owners
+    activate gw
+gw -> us: send request to add an owner
+    activate us
+    alt <font color=red> if such an email exists yet
+us -> us: throw error
+us -> gw: return <b>"Error message"
+gw -> user: return <b>"Error message
+    end
+
+us -> ub: insert an owner
+    activate ub
+ub -> us: return the owner
+    deactivate ub
+us -> hs: send request\nto add a hotel
+    activate hs
+hs -> hb: insert a hotel
+    activate hb
+hb -> hs: return the hotel
+    deactivate hb
+hs -> us: return the hotel
+    deactivate hs
+us -> k: send email event
+    activate k
+    deactivate k
+us -> gw: return the owner view\nand hotel view
+    deactivate us
+gw -> user: return the owner view\nand hotel view
+    deactivate gw
+    deactivate user
+
+@enduml

@@ -1,0 +1,56 @@
+@startuml
+
+actor Everybody
+participant "Gateway" as gateway
+participant "Hotel App" as hotel
+database "HotelDB" as base
+
+==View all hotels==
+activate Everybody
+    Everybody -> gateway:GET /hotels
+activate gateway
+    gateway -> hotel: send request to get a list of hotels
+activate hotel
+    hotel -> base: select all hotels
+activate base
+    base -> hotel: return all hotels
+deactivate base
+    hotel -> gateway: return the list of all hotels view
+deactivate hotel
+    gateway -> Everybody: return the list of all hotels view
+deactivate gateway
+
+
+==View hotel information==
+
+    Everybody -> gateway: GET /hotels/{id}
+activate gateway
+    gateway -> hotel: send request to get hotel information
+activate hotel
+    hotel-> base: select hotel information
+activate base
+    base -> hotel: return hotel information
+deactivate base
+    hotel -> gateway: return information about the hotel view
+deactivate hotel
+    gateway -> Everybody: return information about the hotel view
+deactivate gateway
+
+
+==Sorted hotel by parameters==
+
+    Everybody -> gateway: GET /hotels?param=value&...
+activate gateway
+    gateway -> hotel: send request to get hotels sorted by parameters
+activate hotel
+    hotel-> base: select sorted hotels by parameters
+activate base
+    base-> hotel: return hotels list
+deactivate base
+    hotel -> gateway: return sorted list of the hotels view
+ deactivate hotel
+   gateway -> Everybody: return sorted list of the hotels view
+deactivate gateway
+deactivate Everybody
+
+@enduml

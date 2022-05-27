@@ -1,0 +1,55 @@
+@startuml
+
+actor "Owner" as user
+participant "Gateway" as gateway
+participant "Hotel App" as hotelService
+participant "Booking App" as bookingService
+participant "User App" as userService
+participant "Notification" as kafka
+database "HotelDB" as hotelBase
+database "BookingDB" as bookingBase
+database "UserDB" as userBase
+
+==Updating requirements for rent room==
+
+user -> gateway: PUT /rooms/{id}/requirements
+gateway -> hotelService: send request to\n change requirements\n for rent room
+hotelService-> hotelBase: update the requirements for rent room
+hotelBase -> hotelService: return room
+hotelService -> bookingService: send request to\n find all future\n booking for room
+bookingService -> bookingBase: select all future booking for room
+bookingBase-> bookingService: return booking list
+alt <font color=red> if booking can be executed in new conditions
+bookingService -> gateway: return Message: booking unchanged
+end
+
+alt <font color=red>if booking can not be executed in new conditions
+bookingService -> hotelService: find free rooms for each orders with\n last requirements
+hotelService -> hotelBase: select free room for each orders with last requirements
+hotelBase->hotelService: return free rooms list
+
+alt <font color=red>if can update room in booking
+hotelService -> bookingService: send request to change room in booking
+bookingService-> bookingBase: update room in booking
+bookingBase -> bookingService: return new room in booking
+bookingService -> gateway: return: list of bookings and Message: booking changed
+end
+
+alt <font color=red> if can not update room in booking
+hotelService -> bookingService: send request to change booking status
+bookingService->bookingService:booking is cancelled
+bookingService-> bookingBase: update booking
+bookingBase-> bookingService: return booking
+bookingService -> userService: change balance of guest
+
+end
+
+end
+
+service -> gateway: return the status
+gateway ->  user: 200 OK
+
+@enduml
+
+
+

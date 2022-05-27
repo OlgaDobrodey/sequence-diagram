@@ -1,0 +1,20 @@
+@startuml
+
+participant "User App" as us
+database "UserDB" as ub
+
+==Function pay for the room==
+
+    activate us
+us -> ub: select guest balance
+    activate ub
+ub-> us: return guest balance
+
+us -> us: to pay the booking\ncost from the balance
+us -> ub: update guest balance
+ub -> us: return guest
+    deactivate ub
+    deactivate us
+
+
+@enduml

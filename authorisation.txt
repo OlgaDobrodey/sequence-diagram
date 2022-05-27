@@ -1,0 +1,18 @@
+@startuml
+
+actor "Admin\nOwner\nGuest" as user
+participant "Gateway" as gw
+participant "Security" as scrt
+participant "User App" as us
+database "UserDB" as ub
+database "SecurityDB" as sb
+
+==Authorisation==
+
+activate user
+activate gw
+
+deactivate gw
+deactivate user
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+actor "Guest" as user
+participant "Gateway" as gw
+participant "User App" as us
+
+==Deposit an account balance==
+    activate user
+user -> gw: PUT /users/{id}/balance
+    activate gw
+gw -> us: send request to deposit\nan account balance
+    activate us
+    alt <font color=red> if card data incorrect
+us -> us: throw error
+us -> gw: return <b>"Error message"
+gw -> user: return <b>"Error message
+   end
+us -> us: function deposit\nan account balance
+us -> gw: return guest view
+    deactivate us
+gw -> user: return guest view
+    deactivate gw
+    deactivate user
+
+
+@enduml

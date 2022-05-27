@@ -1,0 +1,24 @@
+@startuml
+
+actor "Guest" as user
+participant "Gateway" as gw
+participant "Booking App" as bs
+participant "user App" as us
+
+database "BookingDB" as db
+database "UserDB" as ub
+
+==Booking room==
+
+user -> gw :POST /users/{id}/bookings
+gw -> bs: send request to add room booking
+
+bs -> bs: check that data valid
+note over bs:  - the requested period is not valid (more than 1 year)\n -room is booked yet\n -minimum requirements are not met\n -the account balance is not enough
+
+bs -> db: insert a new booking in status active
+db -> bs: return thr booking
+bs -> gw: return the booking view
+gw -> user: return the booking view
+
+@enduml

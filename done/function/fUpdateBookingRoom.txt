@@ -1,0 +1,26 @@
+@startuml
+
+participant "Booking App" as bs
+
+database "BookingDB" as db
+
+==Function updating room in booking==
+
+bs -> db: select free room for booking with requirement
+    activate bs
+    activate db
+db -> bs: return room
+    deactivate db
+    alt <font color=red> if room is empty
+bs -> bs: function changing\nbooking status
+    end
+
+    alt <font color=red> else
+bs -> db: update booking room
+    activate db
+db -> bs: return booking
+    deactivate db
+    end
+    deactivate bs
+
+@enduml

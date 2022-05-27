@@ -1,0 +1,20 @@
+@startuml
+
+actor "Owner" as user
+participant "Gateway" as gw
+participant "Booking App" as bs
+
+==Changing booking status==
+    activate user
+user -> gw: PUT /bookings/{id}/status
+    activate gw
+gw -> bs: send request to change\nthe booking status
+    activate bs
+bs -> bs: function changing\nbooking status
+bs -> gw: return booking view
+    deactivate bs
+gw ->  user: return booking view
+    deactivate gw
+    deactivate user
+
+@enduml
