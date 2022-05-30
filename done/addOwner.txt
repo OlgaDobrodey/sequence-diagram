@@ -8,7 +8,7 @@ participant "Kafka" as k
 database "UserDB" as ub
 database "HotelDB" as hb
 
-==Adding a new owner and hotel==
+==Adding a new owner and a hotel==
     activate user
 user -> gw :POST /owners
     activate gw
@@ -20,13 +20,13 @@ us -> gw: return <b>"Error message"
 gw -> user: return <b>"Error message
     end
 
-us -> ub: insert an owner
+us -> ub: add the owner
     activate ub
 ub -> us: return the owner
     deactivate ub
 us -> hs: send request\nto add a hotel
     activate hs
-hs -> hb: insert a hotel
+hs -> hb: add the hotel
     activate hb
 hb -> hs: return the hotel
     deactivate hb

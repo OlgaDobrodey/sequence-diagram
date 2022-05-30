@@ -5,15 +5,15 @@ participant "Gateway" as gw
 participant "Hotel App" as hs
 database "HotelDB" as db
 
-==Adding a room with information to the room==
+==Adding a room==
     activate user
 user -> gw: POST /rooms
     activate gw
 gw -> hs: send a request to add a new room\nwith information to the hotel
     activate hs
-hs-> db: insert a new room in status block
+hs-> db: add a new room with status blocked
     activate db
-db-> hs: return the room in status block
+db-> hs: return the room with status blocked
     deactivate db
 hs -> gw: return the room view
     deactivate hs
@@ -21,14 +21,14 @@ gw -> user: return the room view
     deactivate gw
 
 
-==Updating description room==
+==Updating room==
 user -> gw: PUT /rooms/{id}
     activate gw
-gw -> hs: send a request to change the room information
+gw -> hs: send a request to change the room
     activate hs
-hs-> db: update the room information
+hs-> db: update the room
     activate db
-db-> hs: return the room
+db-> hs: return the updated room
     deactivate db
 hs -> gw: return the room view
     deactivate hs

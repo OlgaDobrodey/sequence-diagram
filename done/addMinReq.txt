@@ -5,15 +5,15 @@ participant "Gateway" as gw
 participant "Hotel App" as hs
 database "HotelDB" as db
 
-==Adding minimum requirements for the rent room to the room==
+==Adding minimum requirements for the rent room==
     activate user
 user -> gw: POST /rooms/{id}/requirements
     activate gw
-gw -> hs: send a request to add minimum\nrequirements for rent room
+gw -> hs: send a request to add minimum\nrequirements for the rent room
     activate hs
-hs-> db: update a minimum requirements\n for rent room in status active
+hs-> db: update a minimum requirements\n for rent room, the room becomes\n active
     activate db
-db-> hs: return the room in status active
+db-> hs: return the room with status active
     deactivate db
 hs -> gw: return the room view
     deactivate hs
