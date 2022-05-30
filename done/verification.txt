@@ -1,0 +1,36 @@
+@startuml
+
+actor "Owner\nGuest" as user
+participant "Gateway" as gw
+participant "User App" as us
+participant "Kafka" as k
+
+database "UserDB" as ub
+
+
+==Verification==
+
+activate user
+user -> gw: POST /verification
+activate gw
+gw -> us: follow link via emil
+
+activate us
+alt <font color=red> if "not follow link during 24h"
+us -> k: send email event
+    activate k
+    deactivate k
+    us -> gw: return <b> "Send new link"
+    gw -> user: return <b> "Send new link"
+end
+us -> ub: update user active status
+activate ub
+ub -> us : return user
+deactivate ub
+us -> gw: return <b> "User can authorise"
+gw -> user: return <b> "User can authorise"
+
+deactivate gw
+deactivate user
+
+@enduml

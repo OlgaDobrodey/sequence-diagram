@@ -1,0 +1,36 @@
+@startuml
+
+actor "Guest" as user
+participant "Gateway" as gw
+participant "User App" as us
+
+database "UserDB" as ub
+
+
+==Registration==
+
+    activate user
+user -> gw: POST /registration
+    activate gw
+gw -> us: send request registration user
+    activate us
+us -> ub: select user email
+    activate ub
+ub -> us: return user
+    deactivate ub
+alt <font color=red> if "user email exist"
+us -> us : throw error
+us -> gw: return <b>"Error message"
+gw -> user: return <b>"Error message"
+end
+
+us -> ub: insert user with status block
+    activate ub
+ub-> us: return user
+    deactivate ub
+us -> user: verification
+deactivate us
+deactivate gw
+deactivate user
+
+@enduml

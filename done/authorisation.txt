@@ -10,18 +10,31 @@ database "SecurityDB" as sb
 ==Authorisation==
 
 activate user
-user -> gw: //.
+user -> gw: POST /login
 activate gw
-gw -> sc:
-sc-> us:
+gw -> sc: send request find user
+activate sc
+sc-> us: send request find user
+activate us
+alt <font color=red> if "incorrect data"
+us -> us : throw error
+us -> sc: return <b>"Error message"
+sc -> gw: return <b>"Error message"
+gw -> user: return <b>"Error message"
+end
+
 us -> ub: select user
+activate ub
 ub -> us: return user
-
-us -> sc:
+deactivate ub
+us -> sc: return user
+deactivate us
 sc -> sb: get token
+activate sb
 sb -> sc: return token
-
+deactivate sb
 sc-> gw: return token view
+deactivate sc
 gw -> user: return token view
 deactivate gw
 deactivate user
