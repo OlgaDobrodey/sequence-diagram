@@ -1,0 +1,57 @@
+@startuml
+
+actor "Guest" as user
+participant "Gateway" as gw
+participant "Booking App" as bs
+participant "Hotel App" as hs
+participant "user App" as us
+
+database "BookingDB" as db
+database "HotelDB" as hb
+
+==Booking room==
+    activate user
+user -> gw :POST\n /users/{id}/bookings
+    activate gw
+gw -> bs: send request\nto add room\n booking
+    activate bs
+bs -> bs: check that the requested\nperiod is not valid
+
+bs -> bs: Exception\n<font color=red>(if more than 1 year )
+bs -> db: select that room\n is booked yet
+    activate db
+db-> bs: return room list
+    deactivate db
+bs-> hs: send request to check\nminimum requirements\nare not met
+    activate hs
+hs -> hb: select this room
+     activate hb
+hb -> hs: return this room
+    deactivate hb
+hs -> hs: check minimum\nrequirements
+hs -> hs: Exception\n<font color=red>(if MR are not met)
+hs -> bs: return room
+    deactivate hs
+
+bs -> us: send request check\n account balance
+    activate us
+us -> us: function pay\nfor the room
+us -> us: Exception\n<font color=red>( if account balance is not enough)
+us -> bs: return cost
+     deactivate us
+bs -> db: insert a new booking\n in status active
+    activate db
+db -> bs: return thr booking
+    deactivate db
+bs -> gw: return\nthe booking view
+gw -> user: return\nthe booking view
+
+==Exception==
+
+alt <font color=red> if "condition"
+bs -> bs: throw exception
+bs-> gw: return\n<b>"Exception message"
+gw -> user: return\n<b>"Exception message"
+end
+
+@enduml
