@@ -8,12 +8,11 @@ participant "Booking App" as bs
 database "HotelDB" as hb
 database "BookingDB" as bb
 
-
-==Closing room for a period==
+==Updating requirements for rent room==
     activate user
-user -> gw: GET /rooms/{id}/requirements?param=value&...
+user -> gw: PUT /rooms/{id}/requirements
     activate gw
-gw -> hs: send request to\nclose room\n for a period
+gw -> hs: send request to\n change requirements\n for rent room
     activate hs
 hs-> hb: update the requirements for rent room
     activate hb
@@ -26,8 +25,8 @@ bs -> bb: select all future booking for room
 bb -> bs: return booking list
     deactivate bb
 alt <font color=red> if booking can be executed in new conditions
-bs -> hs: return Message:\nbooking unchanged
-hs -> gw: return Message:\nbooking unchanged
+bs -> hs: return Message:\n booking unchanged
+hs -> gw: return Message:\n booking unchanged
 gw -> user:  return Message: booking unchanged
 end
 
