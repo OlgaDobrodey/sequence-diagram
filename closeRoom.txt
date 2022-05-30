@@ -9,13 +9,13 @@ database "HotelDB" as hb
 database "BookingDB" as bb
 
 
-==Updating requirements for rent room==
+==Closing room==
     activate user
-user -> gw: PUT /rooms/{id}/requirements
+user -> gw: PUT/rooms/{id}/requirements?stutus=block&...
     activate gw
-gw -> hs: send request to\n change requirements\n for rent room
+gw -> hs: send request to\n close room\n
     activate hs
-hs-> hb: update the requirements for rent room
+hs-> hb: update room status is block
     activate hb
 hb -> hs: return room
     deactivate hb

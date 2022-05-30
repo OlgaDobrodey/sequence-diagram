@@ -2,7 +2,7 @@
 
 actor "Admin\nOwner\nGuest" as user
 participant "Gateway" as gw
-participant "Security" as scrt
+participant "Security" as sc
 participant "User App" as us
 database "UserDB" as ub
 database "SecurityDB" as sb
@@ -10,8 +10,19 @@ database "SecurityDB" as sb
 ==Authorisation==
 
 activate user
+user -> gw: //.
 activate gw
+gw -> sc:
+sc-> us:
+us -> ub: select user
+ub -> us: return user
 
+us -> sc:
+sc -> sb: get token
+sb -> sc: return token
+
+sc-> gw: return token view
+gw -> user: return token view
 deactivate gw
 deactivate user
 
