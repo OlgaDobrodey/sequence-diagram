@@ -16,18 +16,20 @@ gw -> sc: send request find user
 activate sc
 sc-> us: send request find user
 activate us
-alt <font color=red> if "incorrect data"
-us -> us : throw error
-us -> sc: return <b>"Error message"
-sc -> gw: return <b>"Error message"
-gw -> user: return <b>"Error message"
-end
 
 us -> ub: select user
 activate ub
 ub -> us: return user
 deactivate ub
 us -> sc: return user
+
+
+alt <font color=red> "if user doesn't exist"
+us -> us : throw error
+us -> sc: return <b>"Error message"
+sc -> gw: return <b>"Error message"
+gw -> user: return <b>"Error message"
+end
 deactivate us
 sc -> sb: get token
 activate sb

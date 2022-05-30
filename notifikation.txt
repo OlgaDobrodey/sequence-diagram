@@ -1,38 +1,39 @@
 @startuml
 
-
-participant "Kafka" as k
-
-
-actor "Admin\nOwner" as user
+actor "Admin" as user
 participant "Gateway" as gw
 participant "User App" as us
-
+participant "Kafka" as k
+participant "Notification" as n
 
 database "UserDB" as ub
 
-
-==Verification==
-
+==Notification==
 activate user
-user -> gw: POST /verification
-activate gw
-gw -> us: follow link via emil
-
-activate us
-alt <font color=red> if "not follow link during 24h"
 us -> k: send email event
     activate k
     deactivate k
-    us -> gw: return <b> "Send new link"
-    gw -> user: return <b> "Send new link"
+
+k->n:
+n-> us:
+us -> gw:
+gw -> user
+
+alt if email not sent
+k -> n: send not email event
+n -> n: trow Exception
+n-> us: owner and hotel delete from DB
+us -> ub: delete owner and hotel delete from DB
+us -> gw:
+gw -> user:
 end
-us -> ub: update user active status
-activate ub
-ub -> us : return user
-deactivate ub
-us -> gw: return <b> "User can authorise"
-gw -> user: return <b> "User can authorise"
+
+
+
+
+
+
+
 
 deactivate gw
 deactivate user
