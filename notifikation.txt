@@ -11,18 +11,12 @@ database "UserDB" as ub
 ==Notification==
 activate user
 us -> k: send email event
-    activate k
-k->n: listener event
-    deactivate k
-n-> us:
-us -> gw:
-gw -> user
 
 alt if email not sent
 k -> n: send not email event
 n -> n: trow Exception
 n-> us: owner and hotel delete from DB
-us -> ub: delete owner and hotel delete from DB
+us -> ub: delete owner and hotel from DB
 us -> gw:
 gw -> user:
 end
