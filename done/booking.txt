@@ -26,7 +26,8 @@ hb -> hs: return free room
     deactivate hb
 hs -> hs: check minimum\nrequirements
 hs -> hs: Exception\n<font color=red>(if room is busy or\n <font color=red>MR are not met)
-hs -> bs: return room
+hs -> hs: create booking cost
+hs -> bs: return cost
     deactivate hs
 
 bs -> us: send request change\n an account balance
