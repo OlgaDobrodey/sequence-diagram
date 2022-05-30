@@ -12,9 +12,8 @@ database "UserDB" as ub
 activate user
 us -> k: send email event
     activate k
+k->n: listener event
     deactivate k
-
-k->n:
 n-> us:
 us -> gw:
 gw -> user

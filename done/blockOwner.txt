@@ -10,7 +10,7 @@ database "HotelDB" as hb
 
 ==Blocking the owner and hotel==
     activate user
-user -> gw :DELETE /owner
+user -> gw :PUT /owners?status=block
     activate gw
 gw -> us: send request to block\n the owner and hotel
     activate us
