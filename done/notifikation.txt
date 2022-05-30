@@ -10,23 +10,29 @@ database "UserDB" as ub
 
 ==Notification==
 activate user
+activate gw
 us -> k: send email event
+activate k
+deactivate k
 
 alt if email not sent
 k -> n: send not email event
+activate k
+deactivate k
+activate n
 n -> n: trow Exception
-n-> us: owner and hotel delete from DB
+n-> us: send request delete owner and hotel
+deactivate n
+activate us
 us -> ub: delete owner and hotel from DB
-us -> gw:
-gw -> user:
+
+activate ub
+ub -> us: return owner
+deactivate ub
+us -> gw: return\n<b>"Message did not send\n<b>Owner is't save"
+deactivate us
+gw -> user: return\n<b>"Message did not send\n<b>Owner is't save"
 end
-
-
-
-
-
-
-
 
 deactivate gw
 deactivate user
