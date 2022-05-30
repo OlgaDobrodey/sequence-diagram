@@ -9,7 +9,7 @@ database "UserDB" as ub
 us -> ub: select guest balance
     activate ub
 ub-> us: return guest balance
-us -> us: to add sum\nbooking to\nthe guest balance
+us -> us: add sum to\nthe guest balance
 us -> ub: update guest balance
 ub -> us: return guest
     deactivate ub

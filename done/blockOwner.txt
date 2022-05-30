@@ -8,27 +8,27 @@ participant "Hotel App" as hs
 database "UserDB" as ub
 database "HotelDB" as hb
 
-==Blocking the owner and hotel==
+==Blocking an owner and a hotel==
     activate user
-user -> gw :PUT /owners?status=block
+user -> gw :PUT /owners/{id}?status=blocked
     activate gw
-gw -> us: send request to block\n the owner and hotel
+gw -> us: send request to block\n the owner and the hotel
     activate us
-us -> ub: update an owner to status block
+us -> ub: update the owner with status blocked
     activate ub
-ub -> us: return the owner
+ub -> us: return the updated owner
     deactivate ub
 us -> hs: send request\n to block the hotel
     activate hs
-hs -> hb: update the hotel to status block
+hs -> hb: update the hotel with status block
     activate hb
-hb -> hs: return the hotel
+hb -> hs: return the udpdated hotel
     deactivate hb
-hs -> us: return the hotel
+hs -> us: return the updated hotel
     deactivate hs
-us -> gw: return the owner and hotel view
+us -> gw: return the owner and the hotel view
     deactivate us
-gw -> user: return the owner and hotel view
+gw -> user: return the owner and the hotel view
     deactivate gw
     deactivate user
 

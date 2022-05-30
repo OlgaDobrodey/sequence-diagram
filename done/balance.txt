@@ -10,7 +10,7 @@ user -> gw: PUT /users/{id}/balance
     activate gw
 gw -> us: send request to deposit\nan account balance
     activate us
-    alt <font color=red> if card data incorrect
+    alt <font color=red> if card data is incorrect
 us -> us: throw error
 us -> gw: return <b>"Error message"
 gw -> user: return <b>"Error message

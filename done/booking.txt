@@ -13,35 +13,31 @@ database "HotelDB" as hb
     activate user
 user -> gw :POST\n /users/{id}/bookings
     activate gw
-gw -> bs: send request\nto add room\n booking
+gw -> bs: send request\nto book room
     activate bs
-bs -> bs: check that the requested\nperiod is not valid
+bs -> bs: check that the requested\nperiod is valid
 
-bs -> bs: Exception\n<font color=red>(if more than 1 year )
-bs -> db: select that room\n is booked yet
-    activate db
-db-> bs: return room list
-    deactivate db
-bs-> hs: send request to check\nminimum requirements\nare not met
+bs -> bs: Exception\n<font color=red>(if period is more than 1 year )
+bs-> hs: select free room
     activate hs
-hs -> hb: select this room
+hs -> hb: select free room
      activate hb
-hb -> hs: return this room
+hb -> hs: return free room
     deactivate hb
 hs -> hs: check minimum\nrequirements
-hs -> hs: Exception\n<font color=red>(if MR are not met)
+hs -> hs: Exception\n<font color=red>(if room is busy or\n <font color=red>MR are not met)
 hs -> bs: return room
     deactivate hs
 
-bs -> us: send request check\n account balance
+bs -> us: send request change\n an account balance
     activate us
 us -> us: function pay\nfor the room
 us -> us: Exception\n<font color=red>( if account balance is not enough)
 us -> bs: return cost
      deactivate us
-bs -> db: insert a new booking\n in status active
+bs -> db: insert a new booking\n with status active
     activate db
-db -> bs: return thr booking
+db -> bs: return new booking
     deactivate db
 bs -> gw: return\nthe booking view
 gw -> user: return\nthe booking view
