@@ -7,34 +7,41 @@ participant "Kafka" as k
 participant "Notification" as n
 
 database "UserDB" as ub
+participant "SMTP Client" as sc
 
 ==Notification==
 activate user
 activate gw
 us -> k: send email event
 activate k
-deactivate k
-
-alt if email not sent
-k -> n: send not email event
-activate k
+k -> n: send email event
 deactivate k
 activate n
-n -> n: trow Exception
-n-> us: send request delete owner and hotel
+n -> sc: send email event
 deactivate n
-activate us
-us -> ub: delete owner and hotel from DB
+activate sc
 
-activate ub
-ub -> us: return owner
-deactivate ub
-us -> gw: return\n<b>"Message did not send\n<b>Owner is't save"
-deactivate us
-gw -> user: return\n<b>"Message did not send\n<b>Owner is't save"
+alt <font color=red> if email not sent
+    sc -> sc: trow Exception
+    sc -> n: return \n<b>"Exception message"
+    deactivate sc
+    activate n
+    n -> k:  return \n<b>"Exception message"
+    deactivate n
+    activate k
+    k -> us: return \n<b>"Exception message"
+    deactivate k
+
+    activate us
+    us -> ub: delete owner and hotel from DB
+    activate ub
+    ub -> us: return owner
+    deactivate ub
+    us -> gw: return\n<b>"Message did not send\n<b>Owner is't save"
+    deactivate us
+    gw -> user: return\n<b>"Message did not send\n<b>Owner is't save"
+    deactivate gw
 end
-
-deactivate gw
 deactivate user
 
 @enduml
