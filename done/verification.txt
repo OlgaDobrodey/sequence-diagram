@@ -23,7 +23,7 @@ us -> k: send email event
     us -> gw: return <b> "Send new link"
     gw -> user: return <b> "Send new link"
 end
-us -> ub: update user active status
+us -> ub: update user status with active
 activate ub
 ub -> us : return user
 deactivate ub

@@ -37,9 +37,9 @@ alt <font color=red> if email not sent
     activate ub
     ub -> us: return owner
     deactivate ub
-    us -> gw: return\n<b>"Message did not send\n<b>Owner is't save"
+    us -> gw: return\n<b>"Message did not send\n<b>Owner wasn't be saved"
     deactivate us
-    gw -> user: return\n<b>"Message did not send\n<b>Owner is't save"
+    gw -> user: return\n<b>"Message did not send\n<b>Owner wasn't be saved"
     deactivate gw
 end
 deactivate user
