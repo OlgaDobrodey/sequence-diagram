@@ -18,13 +18,13 @@ us -> ub: select user email
     activate ub
 ub -> us: return user
     deactivate ub
-alt <font color=red> if "user email exist"
+alt <font color=red> if "user email exists"
 us -> us : throw error
 us -> gw: return <b>"Error message"
 gw -> user: return <b>"Error message"
 end
 
-us -> ub: insert user with status block
+us -> ub: insert user with status blocked
     activate ub
 ub-> us: return user
     deactivate ub
