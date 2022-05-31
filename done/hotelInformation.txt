@@ -11,7 +11,7 @@ user -> gw: PUT /hotels/{id}
     activate gw
 gw -> hs: send request to change the hotel information
     activate hs
-hs-> db: update the hotel information
+hs-> db: update the hotel
     activate db
 db-> hs: return the hotel
     deactivate db

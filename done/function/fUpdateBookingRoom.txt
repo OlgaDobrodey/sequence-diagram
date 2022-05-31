@@ -6,17 +6,17 @@ database "BookingDB" as db
 
 ==Function updating room in booking==
 
-bs -> db: select free room for booking with requirement
+bs -> db: select free rooms for booking with new requirements
     activate bs
     activate db
-db -> bs: return room
+db -> bs: return rooms list
     deactivate db
-    alt <font color=red> if room is empty
+    alt <font color=red> if rooms list is empty
 bs -> bs: function changing\nbooking status
     end
 
     alt <font color=red> else
-bs -> db: update booking room
+bs -> db: update room for booking
     activate db
 db -> bs: return booking
     deactivate db

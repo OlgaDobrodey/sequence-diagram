@@ -8,29 +8,26 @@ participant "Booking App" as bs
 database "HotelDB" as hb
 database "BookingDB" as bb
 
-==Updating requirements for rent room==
+==Updating requirements for the rent room==
     activate user
 user -> gw: PUT /rooms/{id}/requirements
     activate gw
-gw -> hs: send request to\n change requirements\n for rent room
+gw -> hs: send request to\n change requirements\n for the rent room
     activate hs
-hs-> hb: update the requirements for rent room
+hs-> hb: update the requirements for the rent room
     activate hb
 hb -> hs: return room
     deactivate hb
-hs -> bs: send request to\n find all future\n booking for room
+    alt <font color=red> if booking can be executed in new conditions
+                 hs -> gw: return Message:\n booking unchanged
+                 gw -> user:  return Message: booking unchanged
+                 end
+hs -> bs: send request to\n find all future\n bookings for this room
     activate bs
-bs -> bb: select all future booking for room
+bs -> bb: select all future bookings for room
     activate bb
-bb -> bs: return booking list
+bb -> bs: return bookings list
     deactivate bb
-alt <font color=red> if booking can be executed in new conditions
-bs -> hs: return Message:\n booking unchanged
-hs -> gw: return Message:\n booking unchanged
-gw -> user:  return Message: booking unchanged
-end
-
-alt <font color=red>if booking can not be executed in new conditions
 bs -> bs: function updating\nroom in booking
 
 bs -> hs: return booking view
@@ -38,8 +35,7 @@ bs -> hs: return booking view
 hs -> gw: return booking view
     deactivate hs
 gw -> user: return booking view
-end
-    activate gw
+    deactivate gw
     deactivate user
 
 @enduml

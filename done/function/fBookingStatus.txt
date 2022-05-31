@@ -9,7 +9,7 @@ database "BookingDB" as db
 ==Function changing booking status==
 
     activate bs
-bs -> us: send request\nto add cost booking\nto guest balance
+bs -> us: send request\nto add booking cost\nto the guest balance
     activate us
 us -> us: function deposit\nan account balance
 us -> bs: return guest

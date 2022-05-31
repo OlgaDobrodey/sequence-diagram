@@ -12,16 +12,16 @@ Everybody -> gateway: GET /rooms/{id}
     activate gateway
 gateway -> hotel: send request to get room information
     activate hotel
-hotel-> base: select room information
+hotel-> base: select room by id
     activate base
-base -> hotel: return room information
+base -> hotel: return the room
     deactivate base
-hotel -> gateway: return information about the room view
+hotel -> gateway: return the room view
     deactivate hotel
-gateway -> Everybody: return information\n about the room view
+gateway -> Everybody: return the room view
     deactivate gateway
 
-==Sorted room by parameters==
+==Sort rooms by parameters==
 Everybody -> gateway: GET /rooms?param=value&...
     activate gateway
 gateway -> hotel: send request to get rooms sorted by parameters
@@ -30,9 +30,9 @@ hotel-> base: select sorted rooms by parameters
     activate base
 base-> hotel: return rooms list
     deactivate base
-hotel -> gateway: return sorted list of the rooms view
+hotel -> gateway: return sorted rooms list view
     deactivate hotel
-gateway -> Everybody: return information\n about the room view
+gateway -> Everybody: return sorted rooms list view
 
     deactivate gateway
     deactivate Everybody

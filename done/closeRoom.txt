@@ -9,21 +9,21 @@ database "HotelDB" as hb
 database "BookingDB" as bb
 
 
-==Closing room==
+==Blocking room==
     activate user
-user -> gw: PUT/rooms/{id}/requirements?stutus=block
+user -> gw: PUT/rooms/{id}/requirements?status=blocked
     activate gw
 gw -> hs: send request to\nclose room
     activate hs
-hs-> hb: update room status is block
+hs-> hb: update room with status blocked
     activate hb
 hb -> hs: return room
     deactivate hb
-hs -> bs: send request to\n find all future\n booking for room
+hs -> bs: send request to\n find all future\n bookings for this room
     activate bs
-bs -> bb: select all future booking for room
+bs -> bb: select all future bookings for room
     activate bb
-bb -> bs: return booking list
+bb -> bs: return bookings list
     deactivate bb
 
 bs -> bs: function updating\nroom in booking

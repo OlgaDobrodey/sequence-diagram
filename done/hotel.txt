@@ -9,15 +9,15 @@ database "HotelDB" as base
 activate Everybody
     Everybody -> gateway:GET /hotels
 activate gateway
-    gateway -> hotel: send request to get a list of hotels
+    gateway -> hotel: send request to get hotels list
 activate hotel
     hotel -> base: select all hotels
 activate base
-    base -> hotel: return all hotels
+    base -> hotel: return all hotels list
 deactivate base
-    hotel -> gateway: return the list of all hotels view
+    hotel -> gateway: return the hotels list view
 deactivate hotel
-    gateway -> Everybody: return the list of all hotels view
+    gateway -> Everybody: return the hotels list view
 deactivate gateway
 
 
@@ -27,17 +27,17 @@ deactivate gateway
 activate gateway
     gateway -> hotel: send request to get hotel information
 activate hotel
-    hotel-> base: select hotel information
+    hotel-> base: select a hotel by id
 activate base
-    base -> hotel: return hotel information
+    base -> hotel: return the hotel
 deactivate base
-    hotel -> gateway: return information about the hotel view
+    hotel -> gateway: return the hotel view
 deactivate hotel
-    gateway -> Everybody: return information about the hotel view
+    gateway -> Everybody: return the hotel view
 deactivate gateway
 
 
-==Sorted hotel by parameters==
+==Sort hotels by parameters==
 
     Everybody -> gateway: GET /hotels?param=value&...
 activate gateway
@@ -47,9 +47,9 @@ activate hotel
 activate base
     base-> hotel: return hotels list
 deactivate base
-    hotel -> gateway: return sorted list of the hotels view
+    hotel -> gateway: return sorted hotels list view
  deactivate hotel
-   gateway -> Everybody: return sorted list of the hotels view
+   gateway -> Everybody: return sorted hotels list view
 deactivate gateway
 deactivate Everybody
 
